@@ -2,6 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/action_simple_traditional"
+          android:orderInCategory="1"
+          android:title="@string/simple_traditional"
+          app:showAsAction="never"/>
+    <item android:id="@+id/action_about"
+          android:orderInCategory="0"
+          android:title="@string/about"
+          app:showAsAction="never"/>
+
+    <item android:id="@+id/donate"
+          android:orderInCategory="2"
+          android:title="@string/donate"
+          app:showAsAction="never"/>
+
     <item android:id="@+id/action_search"
           android:icon="@drawable/ic_search_white_24dp"
           android:title="@string/search"

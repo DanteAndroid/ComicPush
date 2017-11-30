@@ -7,6 +7,7 @@
     <color name="secondText">@android:color/secondary_text_light</color>
     <color name="tertiaryText">@android:color/tertiary_text_light</color>
 
+    <color name="bb_darkBackgroundColor">#212121</color>
 
     <color name="whiteBackground">#f5f5f5</color>
     <color name="item_background">#ccffffff</color>

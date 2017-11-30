@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kindle漫畫推送</string>
+    <string name="title_activity_login">登錄</string>
+    <string name="search">搜索</string>
+    <string name="userAccount">用戶名/郵箱</string>
+    <string name="password">密碼</string>
+    <string name="name_or_psw_is_empty">用戶名或密碼不能為空哦</string>
+    <string name="login_success">登陸成功</string>
+    <string name="login">登錄</string>
+    <string name="nextAction">下一步</string>
+    <string name="about_message">本應用所有素材來源於 <a href="http://vol.moe">VOL.MOE</a>，如有侵權請聯繫我將及時處理。\\n\\n如果您喜歡本應用，您可以選擇捐贈本作者。\\n
+        當然，您也可以到原網站捐贈/購買VIP以獲得更多漫畫推送流量~
+    </string>
+    <string name="query_hint">請輸入關鍵詞</string>
+    <string name="logoff">確定註銷</string>
+    <string name="logoff_message">將清除登錄信息以及漫畫緩存 （漫畫信息顯示不正確可嘗試此選項）</string>
+    <string name="attention">注意</string>
+    <string name="update">檢查更新</string>
+    <string name="about_app">關於應用</string>
+    <string name="collapse">收起</string>
+    <string name="expand">全部</string>
+    <string name="subscribe_hint">長按以訂閱漫畫，訂閱後可以收到該漫畫的更新</string>
+    <string name="subscribe_success">訂閱成功</string>
+    <string name="collect_success">收藏成功</string>
+    <string name="push_select_comics">確定推送選中漫畫？\n（%d本，約%dM）</string>
+    <string name="push_success">推送登記成功，將陸續推送到達</string>
+    <string name="simple_traditional">繁簡體</string>
+    <string name="about">關於</string>
+    <string name="donate">捐贈</string>
+    <string name="select_all">全選</string>
+    <string name="reverse_select">反選</string>
+    <string name="push_selected">推送選中漫畫</string>
+    <string name="push">推送</string>
+    <string name="book_name">作品名</string>
+    <string name="book_desc">作品介紹</string>
+    <string name="book_author">[作者]</string>
+    <string name="point">分</string>
+    <string name="douban_page">豆瓣頁面</string>
+</resources>

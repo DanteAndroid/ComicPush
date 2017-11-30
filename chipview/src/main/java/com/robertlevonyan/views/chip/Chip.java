@@ -400,6 +400,9 @@ public class Chip extends RelativeLayout {
 
     public void setChipText(String chipText) {
         this.chipText = chipText;
+//        removeView(chipTextView);
+//        chipTextView.setText(chipText);
+//        addView(chipTextView);
     }
 
     public boolean isHasIcon() {
@@ -414,12 +417,12 @@ public class Chip extends RelativeLayout {
         return chipIcon;
     }
 
-    public void setChipIcon(Drawable chipIcon) {
-        this.chipIcon = chipIcon;
-    }
-
     public void setChipIcon(Bitmap chipIcon) {
         this.chipIconBitmap = chipIcon;
+    }
+
+    public void setChipIcon(Drawable chipIcon) {
+        this.chipIcon = chipIcon;
     }
 
     public boolean isClosable() {
