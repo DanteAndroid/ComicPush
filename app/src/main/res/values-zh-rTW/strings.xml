@@ -14,7 +14,7 @@
     </string>
     <string name="query_hint">請輸入關鍵詞</string>
     <string name="logoff">確定註銷</string>
-    <string name="logoff_message">將清除登錄信息以及漫畫緩存 （漫畫信息顯示不正確可嘗試此選項）</string>
+    <string name="logoff_message">將清除登錄信息以及漫畫緩存\n（漫畫信息顯示不正確可嘗試此選項）</string>
     <string name="attention">注意</string>
     <string name="update">檢查更新</string>
     <string name="about_app">關於應用</string>
@@ -23,7 +23,7 @@
     <string name="subscribe_hint">長按以訂閱漫畫，訂閱後可以收到該漫畫的更新</string>
     <string name="subscribe_success">訂閱成功</string>
     <string name="collect_success">收藏成功</string>
-    <string name="push_select_comics">確定推送選中漫畫？\n（%d本，約%dM）</string>
+    <string name="push_select_comics">確定推送選中漫畫？\n\n（%d本，約%dM）</string>
     <string name="push_success">推送登記成功，將陸續推送到達</string>
     <string name="simple_traditional">繁簡體</string>
     <string name="about">關於</string>
@@ -37,4 +37,66 @@
     <string name="book_author">[作者]</string>
     <string name="point">分</string>
     <string name="douban_page">豆瓣頁面</string>
+    <string name="collapse_hint">點擊空白區域也可以收縮標籤哦</string>
+    <string name="search_xxx_results">搜索\"%s\"的結果</string>
+    <string name="my_folowings">我的</string>
+    <string name="download_failed">下載失敗</string>
+    <string name="download_start">準備下載…</string>
+    <string name="cancel_favorite">取消收藏</string>
+    <string name="cancel_follow">取消訂閱</string>
+    <string name="success">成功</string>
+    <string name="failed">失敗</string>
+    <string name="book_detail">漫畫詳情</string>
+    <string name="download_finished">下載完成</string>
+    <string name="download_hard">努力下載中…</string>
+    <string name="download_progress_content">下載進度：%d%，速度：%s</string>
+    <string name="permission_denied">請允許存儲權限</string>
+    <string name="cout_push">熱門</string>
+    <string name="sortpoint">綜合</string>
+    <string name="unfinished">連載</string>
+    <string name="finished">完結</string>
+    <string name="longLength">長篇</string>
+    <string name="comicstrip">連環畫</string>
+    <string name="girls">後宮</string>
+    <string name="xia">武俠</string>
+    <string name="machine">機戰</string>
+    <string name="school">校園</string>
+    <string name="war">戰爭</string>
+    <string name="workplace">職場</string>
+    <string name="history">歷史</string>
+    <string name="cure">治癒</string>
+    <string name="suspense">懸疑</string>
+    <string name="detective">偵探</string>
+    <string name="exciting">熱血</string>
+    <string name="sports">體育</string>
+    <string name="love">愛情</string>
+    <string name="cancel_follow_message">對此漫畫不感興趣？</string>
+    <string name="push_failed">推送失敗：推送額度不足</string>
+    <string name="score">評價</string>
+    <string name="download_too_frequent">下載頻率過快，請5分鐘后再試</string>
+    <string name="showAllComment">展開評論</string>
+    <string name="use_traditional">使用繁體字</string>
+    <string name="feedback">反饋</string>
+    <string name="feedback_desc">有任何建議都可提出</string>
+    <string name="action_settings">設置</string>
+    <string name="thanks_for_feedback">感謝您的反饋</string>
+    <string name="detect_new_version">發現新版本</string>
+    <string name="update_message">更新內容：%s</string>
+    <string name="go_market">去市場更新</string>
+    <string name="share_app_description">
+        Kindle漫畫推送：http://coolapk.com/apk/com.danteandroid.comicpush
+    </string>
+    <string name="dont_hint_update">不再提示</string>
+    <string name="got_it">知道了</string>
+    <string name="feedback_hint">不必吝嗇你的讚美和建議</string>
+    <string name="logoff_summary">將退出登錄并清理緩存</string>
+    <string name="write_comment">寫書評</string>
+    <string name="commit">提交</string>
+    <string name="title">標題</string>
+    <string name="write_comment_hint">說說你的感想</string>
+    <string name="content_saved_as_draft">書品已存為草稿</string>
+    <string name="no_text_entered">內容過少（標題4字起，書評30字起）</string>
+    <string name="comment_success">書評發表成功</string>
+    <string name="is_latest_version">已經是最新版本</string>
+
 </resources>

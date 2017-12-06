@@ -350,7 +350,6 @@ public class Chip extends RelativeLayout {
         chipTextView.setTextColor(selected ? selectedTextColor : textColor);
         chipTextView.setText(chipText);
         chipTextView.setId(TEXT_ID);
-
         this.addView(chipTextView);
     }
 

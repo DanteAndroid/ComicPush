@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                tools:background="@color/cardview_dark_background">
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:id="@+id/cover"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        tools:src="@mipmap/ic_launcher"/>
+    <!--android:textColor="@color/dark_link_selector"-->
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_toEndOf="@+id/cover"
+        android:layout_toLeftOf="@+id/author"
+        android:layout_toRightOf="@+id/cover"
+        android:layout_toStartOf="@+id/author"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="博人傳-火影次世代-"/>
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/title"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="120dp"
+        android:textColor="@color/author_selector"
+        tools:text="岸本斉史×小太刀右京×池本幹雄"/>
+
+    <TextView
+        android:id="@+id/update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@+id/cover"
+        android:layout_toRightOf="@+id/cover"
+        android:maxLines="3"
+        android:textColor="@color/greyer"
+        tools:text="2017-11-08 02:52:33 更新"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/cover"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@color/blue_grey_700"/>
+
+
+</RelativeLayout>

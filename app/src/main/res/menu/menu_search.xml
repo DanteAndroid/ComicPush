@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item android:id="@+id/action_simple_traditional"
-          android:orderInCategory="1"
-          android:title="@string/simple_traditional"
-          app:showAsAction="never"/>
-    <item android:id="@+id/action_about"
+    <item android:id="@+id/action_setting"
           android:orderInCategory="0"
-          android:title="@string/about"
+          android:title="@string/action_settings"
           app:showAsAction="never"/>
 
-    <item android:id="@+id/donate"
+    <item android:id="@+id/action_collection"
+          android:orderInCategory="1"
+          android:title="@string/my_folowings"
+          app:showAsAction="never"/>
+    <item android:id="@+id/action_simple_traditional"
           android:orderInCategory="2"
+          android:title="@string/simple_traditional"
+          android:visible="false"
+          app:showAsAction="never"/>
+    <item android:id="@+id/donate"
+          android:orderInCategory="3"
           android:title="@string/donate"
           app:showAsAction="never"/>
 

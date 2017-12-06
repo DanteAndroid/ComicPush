@@ -10,15 +10,17 @@ public class Volume  extends RealmObject{
     public String title;
     public String value;
     public String size;
+    public String downUrl;
 
     public Volume(){
 
     }
 
-    public Volume(String title, String value, String size) {
+    public Volume(String title, String value, String size, String downUrl) {
         this.title = title;
         this.value = value;
         this.size = size;
+        this.downUrl = downUrl;
     }
 
     @Override
@@ -27,6 +29,7 @@ public class Volume  extends RealmObject{
                 "title='" + title + '\'' +
                 ", value='" + value + '\'' +
                 ", size='" + size + '\'' +
+                ", downUrl='" + downUrl + '\'' +
                 '}';
     }
 }

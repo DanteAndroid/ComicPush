@@ -3,11 +3,11 @@ package com.danteandroid.comicpush.main;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.danteandroid.comicpush.R;
 import com.danteandroid.comicpush.model.Book;
+import com.danteandroid.comicpush.utils.Imager;
 
 /**
  * Created by yons on 17/11/23.
@@ -30,6 +30,6 @@ public class BookListAdapter extends BaseQuickAdapter<Book, BaseViewHolder> {
 //        TextView title=helper.getView(R.id.title);
 //        TextView vol=helper.getView(R.id.vol);
 //        TextView author=helper.getView(R.id.author);
-        Glide.with(context).load(item.cover).into(cover);
+        Imager.loadWithHeader(context, item.cover, cover);
     }
 }

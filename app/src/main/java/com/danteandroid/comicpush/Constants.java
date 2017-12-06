@@ -38,5 +38,6 @@ public class Constants {
     public static final java.lang.String HAS_HISTORY = "has_history_btn";
     public static final String SHOULD_UPDATE_TIME = "update_time";
     public static final String QUERY = "query";
-    public static final String IS_TRADITIONAL = "font";
+    public static final String IS_TRADITIONAL = "is_traditional";
+    public static final String VOL_PREFIX = "[Vol.moe]";
 }

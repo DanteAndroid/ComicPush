@@ -8,12 +8,11 @@
     <string name="login_success">登录成功</string>
     <string name="login">登录</string>
     <string name="nextAction">下一步</string>
-    <string name="about_message">本应用所有素材来源于 <a href="http://vol.moe">VOL.MOE</a>，如有侵权请联系我将及时处理。\n\n如果您喜欢本应用，您可以选择捐赠本作者。\n
-        当然，您也可以到原网站捐赠/购买VIP以获得更多漫画推送流量~
+    <string name="about_message">本应用所有素材来源于 <a href="http://vol.moe">VOL.MOE</a>，如有侵权请联系我将及时处理。\n\n如果您喜欢本应用，您可以捐赠本作者，您的支持会使app变得更好。当然，您也可以到原网站捐赠/购买VIP以获得更多漫画推送流量~
     </string>
     <string name="query_hint">请输入关键词</string>
     <string name="logoff">注销</string>
-    <string name="logoff_message">将清除登录信息以及漫画缓存 （漫画信息显示不正确可尝试此选项）</string>
+    <string name="logoff_message">将清除登录信息以及漫画缓存！\n（漫画信息显示不正确可尝试此选项）</string>
     <string name="attention">注意</string>
     <string name="update">检查更新</string>
     <string name="collapse">收起</string>
@@ -21,12 +20,12 @@
     <string name="subscribe_hint">长按以订阅漫画，订阅后可以收到该漫画的更新</string>
     <string name="subscribe_success">订阅成功</string>
     <string name="collect_success">收藏成功</string>
-    <string name="push_select_comics">确定要推送所选的漫画？\n（%d本，约%dM）</string>
+    <string name="push_select_comics">确定要推送所选的漫画？\n\n（%d本，约%dM）</string>
     <string name="push_success">推送登记成功，将陆续推送到达</string>
     <string name="simple_traditional">繁简体</string>
     <string name="about">关于</string>
     <string name="donate">捐赠</string>
-    <string name="select_all" translatable="false">全选</string>
+    <string name="select_all">全选</string>
     <string name="reverse_select">反选</string>
     <string name="push_selected">推送选中漫画</string>
     <string name="push">推送</string>
@@ -36,5 +35,84 @@
     <string name="book_author">[作者]</string>
     <string name="point">分</string>
     <string name="douban_page">豆瓣页面</string>
+    <string name="collapse_hint">点击空白区域也可以收缩标签哦</string>
+    <string name="search_xxx_results">搜索\"%s\"的结果</string>
+    <string name="my_folowings">我的</string>
+    <string name="download_failed">下载失败</string>
+    <string name="download_start">准备下载…</string>
+    <string name="cancel_favorite">取消收藏</string>
+    <string name="cancel_follow">取消订阅</string>
+    <string name="success">成功</string>
+    <string name="failed">失败</string>
+    <string name="book_detail">漫画详情</string>
+    <string name="download_finished">下载完成</string>
+    <string name="download_hard">努力下载中。。</string>
+    <string name="download_progress_content">下载进度：%d%，速度：%s</string>
+    <string name="permission_denied">请允许存储权限</string>
+    <string name="score">评价</string>
+    <string name="lastupdate" translatable="false">更新</string>
+    <string name="cout_push">热门</string>
+    <string name="sortpoint">综合</string>
+    <string name="unfinished">连载</string>
+    <string name="finished">完结</string>
+    <string name="all" translatable="false">全部</string>
+    <string name="longLength">长篇</string>
+    <string name="mediumLength" translatable="false">中篇</string>
+    <string name="shortLength" translatable="false">短篇</string>
+    <string name="comicstrip">连环画</string>
+    <string name="four_ge" translatable="false">四格</string>
+    <string name="youth" translatable="false">青年</string>
+    <string name="girl" translatable="false">少女</string>
+    <string name="teen" translatable="false">少年</string>
+    <string name="girls">后宫</string>
+    <string name="GL" translatable="false">百合</string>
+    <string name="BL" translatable="false">耽美</string>
+    <string name="xia">武侠</string>
+    <string name="machine">机战</string>
+    <string name="school">校园</string>
+    <string name="survive" translatable="false">生存</string>
+    <string name="horror" translatable="false">恐怖</string>
+    <string name="war">战争</string>
+    <string name="workplace">职场</string>
+    <string name="history">历史</string>
+    <string name="science" translatable="false">科幻</string>
+    <string name="life" translatable="false">生活</string>
+    <string name="food" translatable="false">美食</string>
+    <string name="cure">治愈</string>
+    <string name="suspense">悬疑</string>
+    <string name="detective">侦探</string>
+    <string name="ghost" translatable="false">神鬼</string>
+    <string name="wizardry" translatable="false">魔法</string>
+    <string name="magic" translatable="false">魔幻</string>
+    <string name="exciting">热血</string>
+    <string name="sports">体育</string>
+    <string name="love">爱情</string>
+    <string name="fun" translatable="false">搞笑</string>
+    <string name="cancel_follow_message">对此漫画不感兴趣？</string>
+    <string name="push_failed">推送失败：推送流量不足</string>
+    <string name="download_too_frequent">下载频率过快，请5分钟后再试</string>
+    <string name="showAllComment">展开评论</string>
+    <string name="use_traditional">使用繁体字</string>
+    <string name="feedback">反馈</string>
+    <string name="feedback_desc">有任何建议都可以提出</string>
+    <string name="action_settings">设置</string>
+    <string name="thanks_for_feedback">感谢您的反馈</string>
+    <string name="detect_new_version">发现新版本</string>
+    <string name="update_message">更新内容: \n\n %s</string>
+    <string name="go_market">去市场更新</string>
+    <string name="share_app_description">Kindle漫画推送：http://coolapk.com/apk/com.danteandroid.comicpush</string>
+    <string name="dont_hint_update">不再提示</string>
+    <string name="got_it">知道了</string>
+    <string name="feedback_hint">不必吝啬你的赞美和建议</string>
+    <string name="logoff_summary">将退出登录并清理缓存</string>
+    <string name="write_comment">写书评</string>
+    <string name="commit">提交</string>
+    <string name="title">标题</string>
+    <string name="write_comment_hint">说说你的感想</string>
+    <string name="content_saved_as_draft">书评已存为草稿</string>
+    <string name="no_text_entered">内容过少（标题4字起，书评30字起）</string>
+    <string name="comment_success">书评发表成功</string>
+    <string name="is_latest_version">已经是最新版本</string>
+
 
 </resources>

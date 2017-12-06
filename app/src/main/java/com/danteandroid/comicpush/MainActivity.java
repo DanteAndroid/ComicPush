@@ -1,6 +1,5 @@
 package com.danteandroid.comicpush;
 
-import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
@@ -14,9 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,11 +26,14 @@ import com.blankj.utilcode.utils.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.danteandroid.comicpush.base.BaseActivity;
+import com.danteandroid.comicpush.base.SettingActivity;
+import com.danteandroid.comicpush.collection.CollectionActivity;
 import com.danteandroid.comicpush.detail.BookDetailActivity;
 import com.danteandroid.comicpush.main.BookListAdapter;
 import com.danteandroid.comicpush.model.Book;
 import com.danteandroid.comicpush.net.DataFetcher;
 import com.danteandroid.comicpush.net.HttpErrorAction;
+import com.danteandroid.comicpush.net.Updater;
 import com.danteandroid.comicpush.utils.AppUtil;
 import com.danteandroid.comicpush.utils.DateUtil;
 import com.danteandroid.comicpush.utils.SimpleChineseConvert;
@@ -104,13 +104,14 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
-        initInfo();
+        initDatabase();
         initTags();
+        Updater.getInstance(this).check(false);
         initMain();
         fetchInfo();
     }
 
-    private void initInfo() {
+    private void initDatabase() {
         if (SpUtil.getLong(Constants.SHOULD_UPDATE_TIME) < (new Date().getTime())) {
             database.clear();
             SpUtil.save(Constants.SHOULD_UPDATE_TIME, DateUtil.nextWeekDateOfToday().getTime());
@@ -163,21 +164,19 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         if (toolbar != null) {
             toolbar.setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
         }
-
     }
 
     private void onBookClicked(View view, int position) {
         View cover = view.findViewById(R.id.cover);
         Book book = adapter.getItem(position);
+
         if (book != null) {
-            ViewCompat.setTransitionName(cover, book.title);
+            ViewCompat.setTransitionName(cover, book.cover);
             Intent intent = new Intent(MainActivity.this, BookDetailActivity.class);
-            intent.putExtra(Constants.TITLE, book.title);
-            intent.putExtra(Constants.AUTHOR, book.author);
             intent.putExtra(Constants.COVER, book.cover);
             intent.putExtra(Constants.BOOK_ID, book.bookId);
             ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(MainActivity.this, cover, book.title);
+                    .makeSceneTransitionAnimation(MainActivity.this, cover, book.cover);
             ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
         }
     }
@@ -192,6 +191,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             } else {
                 text = SimpleChineseConvert.traditionalToSimple(text);
             }
+//            text = "error";
+//            Log.d(TAG, "initTagsText: " + text);
             chip.setChipText(text);
         }
         for (int i = 0; i < lengths.getChildCount(); i++) {
@@ -227,11 +228,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     private void initTags() {
+        tagsLayout.setOnClickListener(v -> collapseTags());
+
         for (int i = 0; i < categories.getChildCount(); i++) {
             Chip chip = (Chip) categories.getChildAt(i);
             chip.setOnSelectClickListener((v, selected) -> {
                 if (selected) {
-                    category = chip.getChipText();
+                    category = SimpleChineseConvert.simpleToTraditional(chip.getChipText());
                     if (chip.getId() == R.id.allCat) {
                         category = "all";
                     }
@@ -276,7 +279,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             Chip chip = (Chip) states.getChildAt(i);
             chip.setOnSelectClickListener((v, selected) -> {
                 if (selected) {
-                    state = chip.getChipText();
+                    state = SimpleChineseConvert.simpleToTraditional(chip.getChipText());
                     if (chip.getId() == R.id.allState) {
                         category = "all";
                     }
@@ -319,6 +322,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     private void refresh() {
+        setToolbarTitle(getString(R.string.app_name));
         page = 1;
         query = String.format(Locale.getDefault(), "%s,all,%s,%s,all,%s", category, state, order, length);
         fetch();
@@ -342,6 +346,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         layout.setLayoutParams(params);
         this.isExpand = !isExpand;
         showAll.setText(isExpand ? R.string.collapse : R.string.expand);
+        if (SpUtil.getBoolean("collapse_hint", true)) {
+            SpUtil.save("collapse_hint", false);
+            ToastUtils.showShortToast(R.string.collapse_hint);
+        }
     }
 
 
@@ -354,26 +362,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         KeyboardUtils.hideSoftInput(MainActivity.this);
-        if (id == R.id.action_about) {
-            AlertDialog dialog = new AlertDialog.Builder(this)
-                    .setTitle(R.string.about)
-                    .setMessage(R.string.about_message)
-                    .setNegativeButton(R.string.logoff, (dialog13, which) -> new AlertDialog.Builder(MainActivity.this)
-                            .setTitle(R.string.attention)
-                            .setMessage(R.string.logoff_message)
-                            .setPositiveButton(R.string.logoff, (dialog12, w) -> {
-                                database.clear();
-                                SpUtil.clear();
-                            })
-                            .show())
-                    .setPositiveButton(R.string.update, (dialog1, which) -> AppUtil.goMarket(MainActivity.this))
-                    .show();
-            ((TextView) dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+        if (id == R.id.action_setting) {
+            startActivity(new Intent(getApplicationContext(), SettingActivity.class));
 
         } else if (id == R.id.donate) {
             AppUtil.donate(MainActivity.this);
-        } else if (id == R.id.action_simple_traditional) {
-
+        } else if (id == R.id.action_collection) {
+            startActivity(new Intent(getApplicationContext(), CollectionActivity.class));
 
         }
         return super.onOptionsItemSelected(item);
@@ -381,17 +376,15 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private void initSimpleOrTraditional(MenuItem item) {
         isTraditional = SpUtil.getBoolean(Constants.IS_TRADITIONAL, Locale.getDefault().equals(Locale.TRADITIONAL_CHINESE));
-//        initTagsText();
-        item.setTitle(isTraditional ? "简体" : "繁體");
-        item.setOnMenuItemClickListener(item12 -> {
-            isTraditional = !isTraditional;
-            Log.d(TAG, "isTraditional: " + isTraditional);
-            item.setTitle(isTraditional ? "简体" : "繁體");
-            SpUtil.save(Constants.IS_TRADITIONAL, isTraditional);
+//        item.setTitle(isTraditional ? "简体" : "繁體");
+//        item.setOnMenuItemClickListener(item12 -> {
+//            isTraditional = !isTraditional;
+//            item.setTitle(isTraditional ? "简体" : "繁體");
+//            SpUtil.save(Constants.IS_TRADITIONAL, isTraditional);
 //            initTagsText();
-            fetch();
-            return true;
-        });
+//            fetch();
+//            return true;
+//        });
     }
 
     @Override
@@ -441,6 +434,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void fetch() {
 //        http://vol.moe/list/少女,all,完結,sortpoint,fetch,s/
 //            query = String.format(Locale.getDefault(), "%s,all,%s,%s,all,%s", category, state, order, length);
+        query = query.replace("作者：", "").trim();
         fetch(query);
     }
 
@@ -483,6 +477,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
 
     private void fetchSearch(String keyword) {
+        setToolbarTitle(String.format(getString(R.string.search_xxx_results), keyword));
         keyword = SimpleChineseConvert.simpleToTraditional(keyword);
         page = 1;
         query = keyword;

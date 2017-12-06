@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
+    android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -62,8 +63,8 @@
                         android:marqueeRepeatLimit="marquee_forever"
                         android:maxLines="5"
                         android:text="@string/book_desc"
-                        tools:text="熱血高校(Crows)講述了有著“烏鴉巢穴”別名的鈴蘭男子高中,以不良少年聚集地而 “名聲在外”,該校不僅升學率最低,而且風評極差。 整個學校如同諸侯割據被不同的勢力所壟斷,雖然各個不良少年彼此都虎視眈眈,內戰頻发,但始終都沒有一個大人物出現完成一統。 有一天突然出現了一個名叫坊屋春道的神秘男人,而伴隨他而來的還有他一個人就打到了號稱最大幫派——阪東派的傳聞。名氣一個比一個大的不良少年被春道打到,漸漸地他成為了人們所關注的焦點……
-"/>
+                        tools:text="熱血高校(Crows)講述了有著“烏鴉巢穴”別名的鈴蘭男子高中,以不良少年聚集地而 “名聲在外”,該校不僅升學率最低,而且風評極差。 整個學校如同諸侯割據被不同的勢力所壟斷,雖然各個不良少年彼此都虎視眈眈,內戰頻发,但始終都沒有一個大人物出現完成一統。 有一天突然出現了一個名叫坊屋春道的神秘男人,而伴隨他而來的還有他一個人就打到了號稱最大幫派——阪東派的傳聞。名氣一個比一個大的不良少年被春道打到,漸漸地他成為了人們所關注的焦點……"
+                    />
 
                     <TextView
                         android:id="@+id/author"
@@ -94,45 +95,67 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
         <LinearLayout
+            android:id="@+id/layout_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="@dimen/activity_horizontal_margin"
         >
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp">
                 <TextView
                     android:id="@+id/rate"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red_dark"
                     android:textSize="18sp"
                     tools:text="8.6"/>
                 <TextView
                     android:id="@+id/fen"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
                     android:layout_marginStart="6dp"
                     android:text="@string/point"
-                    android:visibility="invisible"
-                    tools:visibility="visible"/>
+                    android:visibility="invisible" tools:visibility="visible"/>
                 <TextView
                     android:id="@+id/rateNumber"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    tools:text="（12人评价）"/>
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp" tools:text="（12人评价）"/>
                 <TextView
                     android:id="@+id/douban"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
+                    android:layout_weight="1"
                     android:text="@string/douban_page"
                     android:textColor="@color/link_selector"
                     android:visibility="invisible"
                     tools:visibility="visible"/>
+                <TextView
+                    android:id="@+id/showAll"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/showAllComment"
+                    android:textColor="@color/link_selector"
+                    android:visibility="gone" tools:visibility="visible"/>
+                <TextView
+                    android:id="@+id/writeComment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/write_comment"
+                    android:textColor="@color/link_selector"
+                    android:visibility="invisible" tools:visibility="visible"/>
 
             </LinearLayout>
 
@@ -140,27 +163,37 @@
                 android:id="@+id/publishState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="3dp"
                 tools:text="狀態：連載      地區：日本      語言：簡體      分類：少年 格鬥 冒險"/>
             <TextView
                 android:id="@+id/bookInSiteState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="3dp"
                 tools:text="版本：集英社      最後出版：2017      掃者：翻翻"/>
             <TextView
                 android:id="@+id/bookState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="3dp"
                 tools:text="維護者：plumbum  更新：2017-11-27  訂閱：203  收藏：153  熱度：4133"/>
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:id="@+id/commentRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:scrollbars="vertical"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/comment_item"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="10dp"
                 android:scrollbars="vertical"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:spanCount="2"
@@ -178,6 +211,8 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:scaleX="0"
         android:scaleY="1"
+        android:visibility="gone"
+        tools:visibility="visible"
         tools:scaleX="1">
         <CheckBox
             android:id="@+id/selectAll"
@@ -191,11 +226,10 @@
             android:text="@string/reverse_select"/>
         <Button
             android:id="@+id/push"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
             android:minHeight="48dp"
             android:text="@string/push_selected"
             android:theme="@style/FlatButton"/>

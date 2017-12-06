@@ -1,9 +1,11 @@
 package com.danteandroid.comicpush.utils;
 
 import com.danteandroid.comicpush.model.Book;
+import com.danteandroid.comicpush.model.Comment;
 
 import java.io.IOException;
 
+import hugo.weaving.DebugLog;
 import taobe.tec.jcc.JChineseConvertor;
 
 /**
@@ -11,7 +13,7 @@ import taobe.tec.jcc.JChineseConvertor;
  */
 
 public class SimpleChineseConvert {
-
+    private static final String TAG = "SimpleChineseConvert";
     public static Book simpleToTraditional(Book book) {
         book.author = simpleToTraditional(book.author);
         book.title = simpleToTraditional(book.title);
@@ -36,6 +38,16 @@ public class SimpleChineseConvert {
         return book;
     }
 
+    @DebugLog
+    public static Comment traditionalToSimple(Comment comment) {
+        comment.author = traditionalToSimple(comment.author);
+        comment.title = traditionalToSimple(comment.title);
+        comment.bookTitle = traditionalToSimple(comment.bookTitle);
+        comment.content = traditionalToSimple(comment.content);
+        return comment;
+    }
+
+
     public static String traditionalToSimple(String s) {
         try {
             s = JChineseConvertor.getInstance().t2s(s);
@@ -50,6 +62,7 @@ public class SimpleChineseConvert {
         try {
             s = JChineseConvertor.getInstance().s2t(s);
             s = s.replaceAll("后", "後");
+            s = s.replaceAll("曆", "歷");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -24,6 +24,7 @@ public class Book extends RealmObject{
     public String bookInSiteState="";
     public String info="";
     public RealmList<Volume> volList;
+    public RealmList<Comment> commentList;
 
     public Book(){
 

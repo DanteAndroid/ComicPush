@@ -1,5 +1,7 @@
 package com.danteandroid.comicpush.net;
 
+import com.danteandroid.comicpush.model.AppInfo;
+
 import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -7,6 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -18,6 +21,8 @@ public interface VolApi {
     @FormUrlEncoded
     @POST("login_do.php")
     Observable<ResponseBody> login(@Field("email") String email, @Field("passwd") String password, @Field("keepalive") String on);
+    @GET("login.php")
+    Observable<ResponseBody> login();
 
 
     /**
@@ -30,7 +35,7 @@ public interface VolApi {
                                               @Field("autopush_yes") int autopush, @Field("follow_yes") int follow);
 
     /**
-     *  "m100":"推送已經登記成功，將會陸續推送到達",
+      "m100":"推送已經登記成功，將會陸續推送到達",
      "m101":"部分推送登記失敗，可能由於額度不足",
      "m102":"正在進行推送登記......",
      "m103":"操作成功",
@@ -49,7 +54,11 @@ public interface VolApi {
      */
     @FormUrlEncoded
     @POST("book_push.php")
-    Observable<ResponseBody> push(@Field("push_bookid")int bookId, @Field("push_vol_list") String[] vol_list);
+    Observable<ResponseBody> push(@Field("push_bookid")int bookId, @Field("push_vol_list") String vol_list);
+    @FormUrlEncoded
+    @POST("book_comm_do.php")
+    Observable<ResponseBody> comment(@Field("bookid")int bookId, @Field("comm_title") String title,
+                                     @Field("comm_content") String content, @Field("book_score")int score);
 
     @GET("my.php")
     Observable<ResponseBody> myProfile();
@@ -77,5 +86,16 @@ public interface VolApi {
     @GET("comic/{bookId}.htm")
     Observable<ResponseBody> bookCovers(@Path("bookId")int bookId);
 
+    @GET()
+    Observable<ResponseBody> download(@Url String url);
+
+    ///book_comm_list.php?b=10338
+    @GET("book_comm_list.php")
+    Observable<ResponseBody> commentList(@Query("b") int bookId, @Query("p") int page);
+
+
+
+    @GET()
+    Observable<AppInfo> getAppInfo(@Url String url);
 
 }

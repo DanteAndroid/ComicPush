@@ -2,7 +2,6 @@ package com.danteandroid.comicpush.detail;
 
 import android.content.Context;
 import android.text.Html;
-import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -18,7 +17,7 @@ import java.util.List;
  * Created by yons on 17/11/23.
  */
 
-public class BookDetailAdapter extends BaseQuickAdapter<Volume, BaseViewHolder> {
+public class BookVolumeAdapter extends BaseQuickAdapter<Volume, BaseViewHolder> {
 
     private final CompoundButton.OnCheckedChangeListener listener;
     List<Volume> checked = new ArrayList<>();
@@ -26,7 +25,7 @@ public class BookDetailAdapter extends BaseQuickAdapter<Volume, BaseViewHolder> 
     private boolean selectReverse;
 
 
-    public BookDetailAdapter(CheckBox.OnCheckedChangeListener listener) {
+    public BookVolumeAdapter(CheckBox.OnCheckedChangeListener listener) {
         super(R.layout.book_volume_item, null);
         setHasStableIds(true);
         this.listener = listener;
@@ -47,7 +46,6 @@ public class BookDetailAdapter extends BaseQuickAdapter<Volume, BaseViewHolder> 
         Context context = helper.itemView.getContext();
         CheckBox checkBox = helper.getView(R.id.checkbox);
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Log.d(TAG, "convert: " + isChecked);
             if (isChecked) {
                 checked.add(item);
             } else {

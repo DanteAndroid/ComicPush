@@ -33,7 +33,7 @@ public class HttpErrorAction<T> implements Action1<Throwable> {
             }
         } else if (throwable instanceof SocketTimeoutException) {
             errorMessage = "请求超时，请稍后再试";
-        }else {
+        } else {
             errorMessage = throwable.getMessage();
         }
 

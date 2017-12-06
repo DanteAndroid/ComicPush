@@ -1,5 +1,6 @@
 package com.danteandroid.comicpush.detail;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -7,41 +8,56 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.SubtitleCollapsingToolbarLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.transition.Transition;
 import android.transition.TransitionListenerAdapter;
+import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.Space;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.ConvertUtils;
 import com.blankj.utilcode.utils.ToastUtils;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.danteandroid.comicpush.Constants;
 import com.danteandroid.comicpush.MainActivity;
 import com.danteandroid.comicpush.R;
 import com.danteandroid.comicpush.base.BaseActivity;
+import com.danteandroid.comicpush.custom.BottomDialogFragment;
 import com.danteandroid.comicpush.model.Book;
+import com.danteandroid.comicpush.model.Comment;
 import com.danteandroid.comicpush.model.Volume;
 import com.danteandroid.comicpush.net.API;
 import com.danteandroid.comicpush.net.DataFetcher;
+import com.danteandroid.comicpush.net.DownloadHelper;
 import com.danteandroid.comicpush.net.HttpErrorAction;
 import com.danteandroid.comicpush.net.NetService;
 import com.danteandroid.comicpush.utils.AppUtil;
+import com.danteandroid.comicpush.utils.Imager;
 import com.danteandroid.comicpush.utils.SpUtil;
 import com.danteandroid.comicpush.utils.TextUtil;
 import com.danteandroid.comicpush.utils.UiUtils;
@@ -52,6 +68,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.RealmList;
+import rx.Observable;
 
 /**
  * Created by yons on 17/11/23.
@@ -102,14 +120,31 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
     CheckBox selectReverse;
     @BindView(R.id.pushLayout)
     LinearLayout pushLayout;
+    @BindView(R.id.commentRecyclerView)
+    RecyclerView commentRecyclerView;
+    @BindView(R.id.layout_detail)
+    LinearLayout layoutDetail;
+    @BindView(R.id.showAll)
+    TextView showAll;
+    @BindView(R.id.root)
+    CoordinatorLayout root;
+    @BindView(R.id.writeComment)
+    TextView writeComment;
     private String title;
     private String coverUrl;
     private boolean expand;
     private String author;
     private String link;
     private int bookId;
-    private BookDetailAdapter adapter;
+    private BookVolumeAdapter adapter;
+    private CommentAdapter commentAdapter;
     private String pushMessage;
+    private boolean isExpand;
+    private Book book;
+    private int page = 1;
+    private BottomDialogFragment commentFragment;
+    private String commentTemp;
+    private boolean isScrolling;
 
     @OnClick(R.id.selectAll)
     void onClick(View v) {
@@ -137,7 +172,7 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
         swipeRefresh.setOnRefreshListener(this);
 //        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 //        recyclerView.setLayoutManager(layoutManager);
-        adapter = new BookDetailAdapter(this);
+        adapter = new BookVolumeAdapter(this);
         recyclerView.setAdapter(adapter);
         push.setOnClickListener(v -> new AlertDialog.Builder(BookDetailActivity.this)
                 .setMessage(pushMessage)
@@ -161,9 +196,118 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
         params.height = ConvertUtils.dp2px(36);
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         space.setLayoutParams(params);
+
+        recyclerView.addOnItemTouchListener(new OnItemLongClickListener() {
+            @Override
+            public void onSimpleItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                if (!SpUtil.getBoolean("download_hint")) {
+                    UiUtils.showSnackLong(recyclerView, "下载epub漫画为试验性功能，由于网站有下载次数限制，所以请尽量一次下载一本（最多3本），否则可能无法下载");
+                    SpUtil.save("download_hint", true);
+                }
+                Volume volume = (Volume) adapter.getItem(position);
+                if (volume != null) {
+                    DownloadHelper.getInstance(BookDetailActivity.this, bookId).downloadToSD(volume.downUrl, volume.title);
+                }
+            }
+        });
+
+        commentAdapter = new CommentAdapter();
+        commentAdapter.disableLoadMoreIfNotFullPage(commentRecyclerView);
+        commentAdapter.setOnLoadMoreListener(() -> {
+            if (commentAdapter.getData().size() > 0) {
+                page++;
+            }
+            moreComment();
+        }, recyclerView);
+        commentRecyclerView.setAdapter(commentAdapter);
+    }
+
+    private void writeComment() {
+        commentFragment = BottomDialogFragment.create(R.layout.comment_layout).with(this)
+                .bindView(v -> {
+                    TextInputLayout textInputLayout = v.findViewById(R.id.commentTextInputLayout);
+                    TextInputLayout titleInputLayout = v.findViewById(R.id.titleTextInputLayout);
+                    ImageView commit = v.findViewById(R.id.commit);
+                    RatingBar ratingBar = v.findViewById(R.id.ratingBar);
+                    EditText commentEt = textInputLayout.getEditText();
+                    EditText titleEt = titleInputLayout.getEditText();
+                    assert commentEt != null;
+                    assert titleEt != null;
+                    cacheComment(commentEt);
+                    commit.setOnClickListener(view -> {
+                        if (commentEt.getText() == null || commentEt.getText().toString().trim().isEmpty()
+                                || titleEt.getText() == null || titleEt.getText().toString().trim().isEmpty()
+                                || commentEt.getText().toString().length() < 30
+                                || titleEt.getText().toString().length() < 4) {
+                            UiUtils.showSnack(view, R.string.no_text_entered);
+                        } else {
+                            String comment = commentEt.getText().toString();
+                            String title = titleEt.getText().toString();
+                            post(title, comment, Math.round(ratingBar.getRating()));
+                        }
+                    });
+                }).listenDismiss(dialog -> {
+                    if (!TextUtils.isEmpty(commentTemp)) {
+                        UiUtils.showSnack(commentRecyclerView, getString(R.string.content_saved_as_draft));
+                    }
+
+                });
+        commentFragment.show();
+    }
+
+    private void post(String title, String comment, int score) {
+        Log.d(TAG, "post: " + title + " " + comment + "--" + score);
+        NetService.request().comment(bookId, title, comment, score)
+                .compose(applySchedulers())
+                .subscribe(responseBody -> {
+                    String data = "";
+                    try {
+                        data = responseBody.string();
+                        if (data.contains("c100")) {
+                            UiUtils.showSnack(commentRecyclerView, R.string.comment_success);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //1小時只能發表一次
+                    Log.d(TAG, "call: " + data);
+                    commentTemp = null;
+                    commentFragment.dismiss();
+                }, new HttpErrorAction<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        super.call(throwable);
+                        commentFragment.dismiss();
+                        ToastUtils.showShortToast(errorMessage);
+                    }
+                });
+    }
+
+    private void cacheComment(EditText editText) {
+        if (!TextUtils.isEmpty(commentTemp)) {
+            editText.append(commentTemp);
+        }
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                commentTemp = s.toString();
+            }
+        });
     }
 
     private void showPushButton(boolean show) {
+        pushLayout.setVisibility(View.VISIBLE);
         pushLayout.animate().scaleX(show ? 1 : 0).start();
     }
 
@@ -202,11 +346,12 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void pushAll() {
-        String[] volList = new String[checked.size()];
+        StringBuilder volList = new StringBuilder();
         for (int i = 0; i < checked.size(); i++) {
-            volList[i] = checked.get(i).value;
+            volList.append(checked.get(i).value)
+                    .append(i == checked.size() - 1 ? "" : ",");
         }
-        NetService.request().push(bookId, volList)
+        NetService.request().push(bookId, volList.toString())
                 .compose(applySchedulers())
                 .subscribe(responseBody -> {
                     String data;
@@ -214,6 +359,8 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
                         data = responseBody.string();
                         if (data.contains("c100")) {
                             UiUtils.showSnack(push, R.string.push_success);
+                        } else if (data.contains("e403")) {
+                            ToastUtils.showShortToast(R.string.push_failed);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -227,6 +374,7 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
         super.initViews(savedInstanceState);
         initMain();
         fetchData(getIntent());
+
     }
 
     @Override
@@ -237,32 +385,39 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
 
     private void fetchData(Intent intent) {
         if (intent.getExtras() == null) return;
-        title = intent.getExtras().getString(Constants.TITLE);
-        author = intent.getExtras().getString(Constants.AUTHOR);
-        coverUrl = intent.getExtras().getString(Constants.COVER);
         bookId = intent.getExtras().getInt(Constants.BOOK_ID);
-        loadCover();
-        initToolbar();
-        Book book = database.findBook(bookId);
+        title = intent.getExtras().getString(Constants.TITLE);
+        coverUrl = intent.getExtras().getString(Constants.COVER);
+        initToolbar(title, "");
+
+        if (coverUrl != null) {
+            ViewCompat.setTransitionName(cover, coverUrl);
+            loadCover(coverUrl);
+        }
+        book = database.findBook(bookId);
         if (book == null) {
             fetch();
         } else {
-            updateUI(book);
+            updateUI();
         }
     }
 
     private void fetch() {
         swipeRefresh.setRefreshing(true);
 
-        DataFetcher.getInstance(bookId).fetchDetail()
+        DataFetcher.getInstance(bookId, 0).fetchDetail()
+                .compose(applySchedulers())
+                .zipWith(fetchComment(), (book, comments) -> {
+                    book.bookId = bookId;
+                    BookDetailActivity.this.book = book;
+                    book.commentList = comments;
+                    return book;
+                })
                 .compose(applySchedulers())
                 .subscribe(b -> {
-                    swipeRefresh.setRefreshing(false);
-                    b.title = title;
-                    b.author = author;
-                    b.bookId = bookId;
                     database.save(b);
-                    updateUI(b);
+                    updateUI();
+                    swipeRefresh.setRefreshing(false);
 
                 }, new HttpErrorAction<Throwable>() {
                     @Override
@@ -274,18 +429,96 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
                 });
     }
 
-    private void updateUI(Book b) {
-        populate(b);
-        adapter.setNewData(b.volList);
+    private void updateUI() {
+        populate(book);
+        adapter.setNewData(book.volList);
+        popComment();
     }
 
+    private void popComment() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            TransitionManager.beginDelayedTransition(root);
+//        }
+        if (book.commentList == null || book.commentList.isEmpty()) {
+            commentRecyclerView.setVisibility(View.GONE);
+        } else {
+            commentRecyclerView.setVisibility(View.VISIBLE);
+            showAll.setVisibility(View.VISIBLE);
+            showAll.setOnClickListener(v -> {
+//                int firstPosition = ((LinearLayoutManager) commentRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+//                if (firstPosition > 20) {
+//                    commentRecyclerView.scrollToPosition(0);
+//                } else {
+//                    commentRecyclerView.smoothScrollToPosition(0);
+//                }
+                collapseComment();
+            });
+            commentAdapter.setNewData(book.commentList);
+        }
+    }
+
+    private void collapseComment() {
+        commentRecyclerView.stopScroll();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            TransitionManager.beginDelayedTransition(root);
+        }
+        ViewGroup.LayoutParams params = commentRecyclerView.getLayoutParams();
+        int singleItemHeight = ConvertUtils.dp2px(60);
+        params.height = isExpand ? singleItemHeight : ViewGroup.LayoutParams.WRAP_CONTENT;
+        commentRecyclerView.setLayoutParams(params);
+        isExpand = !isExpand;
+        showAll.setText(isExpand ? R.string.collapse : R.string.showAllComment);
+
+    }
+
+
+    private Observable<RealmList<Comment>> fetchComment() {
+        return DataFetcher.getInstance(bookId, page).fetchComment();
+    }
+
+    private void moreComment() {
+        DataFetcher.getInstance(bookId, page).fetchComment()
+                .compose(applySchedulers())
+                .subscribe(comments -> {
+                    Log.d(TAG, "call: comments" + comments.size());
+                    if (book.commentList == comments) {
+                        return;
+                    }
+                    if (comments.size() == 0) {
+                        commentAdapter.loadMoreEnd(true);
+                        return;
+                    }
+                    database.realm.beginTransaction();
+                    if (book.commentList == null) {
+                        book.commentList = new RealmList<>();
+                    }
+                    if (page == 1) {
+                        book.commentList = comments;
+                    } else {
+                        book.commentList.addAll(comments);
+                    }
+                    database.realm.copyToRealmOrUpdate(book);
+                    database.realm.commitTransaction();
+                    popComment();
+
+                }, throwable -> {
+                    if (commentAdapter.getItemCount() > 0) {
+                        commentAdapter.loadMoreComplete();
+                    } else {
+                        commentAdapter.loadMoreFail();
+                    }
+                });
+    }
+
+
     private void populate(Book book) {
+        loadCover(book.cover);
+        initToolbar(book.title, book.author);
         tvDesc.setText(book.desc);
         tvDesc.setOnClickListener(v -> UiUtils.showDetailDialog(BookDetailActivity.this, book.desc));
         tvAuthor.setText(book.author);
         tvAuthor.setOnClickListener(v -> {
             Intent author = new Intent(getApplicationContext(), MainActivity.class);
-//            author.setAction(ACTION_FETCH_AUTHOR);
             author.putExtra(Constants.QUERY, TextUtil.removeBrace(book.author));
             startActivity(author);
         });
@@ -301,10 +534,12 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
             String link = String.format(API.DOUBAN, book.title);
             AppUtil.openBrowser(BookDetailActivity.this, link);
         });
+        writeComment.setVisibility(View.VISIBLE);
+        writeComment.setOnClickListener(v -> writeComment());
 
     }
 
-    private void initToolbar() {
+    private void initToolbar(String title, String author) {
         appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             expand = verticalOffset > -100;
             if (expand) {
@@ -318,32 +553,29 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
 
     }
 
-    private void loadCover() {
-        ViewCompat.setTransitionName(cover, title);
-        Glide.with(this).load(coverUrl)
-                .asBitmap()
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                        supportStartPostponedEnterTransition();
-                    }
+    private void loadCover(String url) {
+        Imager.loadCover(this, url, new SimpleTarget<Bitmap>() {
+            @Override
+            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                supportStartPostponedEnterTransition();
+            }
 
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        cover.setImageBitmap(resource);
-                        supportStartPostponedEnterTransition();
-                        new Handler().postDelayed(() -> fab.show(), 400);
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                cover.setImageBitmap(resource);
+                supportStartPostponedEnterTransition();
+                new Handler().postDelayed(() -> fab.show(), 400);
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            getWindow().getEnterTransition().addListener(new TransitionListenerAdapter() {
-                                @Override
-                                public void onTransitionEnd(Transition transition) {
-                                    super.onTransitionEnd(transition);
-                                }
-                            });
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    getWindow().getEnterTransition().addListener(new TransitionListenerAdapter() {
+                        @Override
+                        public void onTransitionEnd(Transition transition) {
+                            super.onTransitionEnd(transition);
                         }
-                    }
-                });
+                    });
+                }
+            }
+        });
 
     }
 
@@ -362,8 +594,8 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         if (checked != null) checked.clear();
-
         push.animate().scaleX(0).start();
+        page = 1;
         fetch();
     }
 
@@ -378,5 +610,21 @@ public class BookDetailActivity extends BaseActivity implements SwipeRefreshLayo
             }
         }
         sumPushSize();
+    }
+
+
+    private class MyLinearLayoutManager extends LinearLayoutManager {
+        public MyLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void collectAdjacentPrefetchPositions(int dx, int dy, RecyclerView.State state, LayoutPrefetchRegistry layoutPrefetchRegistry) {
+            try {
+                super.collectAdjacentPrefetchPositions(dx, dy, state, layoutPrefetchRegistry);
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "catch exception");
+            }
+        }
     }
 }

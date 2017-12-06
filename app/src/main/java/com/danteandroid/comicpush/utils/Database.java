@@ -12,7 +12,7 @@ import io.realm.RealmObject;
 
 public class Database {
 
-    private final Realm realm;
+    public final Realm realm;
 
     private Database(Realm realm) {
         this.realm = realm;

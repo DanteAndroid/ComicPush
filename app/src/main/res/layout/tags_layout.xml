@@ -45,146 +45,146 @@
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/fun"
                     style="@style/chipStyle"
-                    app:mcv_chipText="搞笑"/>
+                    app:mcv_chipText="@string/fun"/>
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/love"
                     style="@style/chipStyle"
-                    app:mcv_chipText="愛情"
+                    app:mcv_chipText="@string/love"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/sports"
                     style="@style/chipStyle"
-                    app:mcv_chipText="體育"
+                    app:mcv_chipText="@string/sports"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/exciting"
                     style="@style/chipStyle"
-                    app:mcv_chipText="熱血"
+                    app:mcv_chipText="@string/exciting"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/magic"
                     style="@style/chipStyle"
-                    app:mcv_chipText="魔幻"
+                    app:mcv_chipText="@string/magic"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/wizardry"
                     style="@style/chipStyle"
-                    app:mcv_chipText="魔法"
+                    app:mcv_chipText="@string/wizardry"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/ghost"
                     style="@style/chipStyle"
-                    app:mcv_chipText="神鬼"
+                    app:mcv_chipText="@string/ghost"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/detective"
                     style="@style/chipStyle"
-                    app:mcv_chipText="偵探"
+                    app:mcv_chipText="@string/detective"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/suspense"
                     style="@style/chipStyle"
-                    app:mcv_chipText="懸疑"
+                    app:mcv_chipText="@string/suspense"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/cure"
                     style="@style/chipStyle"
-                    app:mcv_chipText="治癒"
+                    app:mcv_chipText="@string/cure"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/food"
                     style="@style/chipStyle"
-                    app:mcv_chipText="美食"
+                    app:mcv_chipText="@string/food"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/life"
                     style="@style/chipStyle"
-                    app:mcv_chipText="生活"
+                    app:mcv_chipText="@string/life"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/science"
                     style="@style/chipStyle"
-                    app:mcv_chipText="科幻"
+                    app:mcv_chipText="@string/science"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/history"
                     style="@style/chipStyle"
-                    app:mcv_chipText="歷史"
+                    app:mcv_chipText="@string/history"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/workplace"
                     style="@style/chipStyle"
-                    app:mcv_chipText="職場"
+                    app:mcv_chipText="@string/workplace"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/war"
                     style="@style/chipStyle"
-                    app:mcv_chipText="戰爭"
+                    app:mcv_chipText="@string/war"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/horror"
                     style="@style/chipStyle"
-                    app:mcv_chipText="恐怖"
+                    app:mcv_chipText="@string/horror"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/survive"
                     style="@style/chipStyle"
-                    app:mcv_chipText="生存"
+                    app:mcv_chipText="@string/survive"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/school"
                     style="@style/chipStyle"
-                    app:mcv_chipText="校園"
+                    app:mcv_chipText="@string/school"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/machine"
                     style="@style/chipStyle"
-                    app:mcv_chipText="機戰"
+                    app:mcv_chipText="@string/machine"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/xia"
                     style="@style/chipStyle"
-                    app:mcv_chipText="武俠"
+                    app:mcv_chipText="@string/xia"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/BL"
                     style="@style/chipStyle"
-                    app:mcv_chipText="耽美"
+                    app:mcv_chipText="@string/BL"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/GL"
                     style="@style/chipStyle"
-                    app:mcv_chipText="百合"
+                    app:mcv_chipText="@string/GL"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/girls"
                     style="@style/chipStyle"
-                    app:mcv_chipText="後宮"
+                    app:mcv_chipText="@string/girls"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/teen"
                     style="@style/chipStyle"
-                    app:mcv_chipText="少年"
+                    app:mcv_chipText="@string/teen"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/girl"
                     style="@style/chipStyle"
-                    app:mcv_chipText="少女"
+                    app:mcv_chipText="@string/girl"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/youth"
                     style="@style/chipStyle"
-                    app:mcv_chipText="青年"
+                    app:mcv_chipText="@string/youth"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/four"
                     style="@style/chipStyle"
-                    app:mcv_chipText="四格"
+                    app:mcv_chipText="@string/four_ge"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/comicstrip"
                     style="@style/chipStyle"
-                    app:mcv_chipText="連環畫"
+                    app:mcv_chipText="@string/comicstrip"
                 />
             </com.google.android.flexbox.FlexboxLayout>
         </android.support.constraint.ConstraintLayout>
@@ -214,22 +214,22 @@
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/allLength"
                     style="@style/chipStyle"
-                    app:mcv_chipText="全部"
+                    app:mcv_chipText="@string/all"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/shortLength"
                     style="@style/chipStyle"
-                    app:mcv_chipText="短篇"
+                    app:mcv_chipText="@string/shortLength"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/mediumLength"
                     style="@style/chipStyle"
-                    app:mcv_chipText="中篇"
+                    app:mcv_chipText="@string/mediumLength"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/longLength"
                     style="@style/chipStyle"
-                    app:mcv_chipText="長篇"
+                    app:mcv_chipText="@string/longLength"
                 />
             </com.google.android.flexbox.FlexboxLayout>
         </android.support.constraint.ConstraintLayout>
@@ -259,17 +259,17 @@
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/allState"
                     style="@style/chipStyle"
-                    app:mcv_chipText="全部"
+                    app:mcv_chipText="@string/all"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/finished"
                     style="@style/chipStyle"
-                    app:mcv_chipText="完結"
+                    app:mcv_chipText="@string/finished"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/unfinished"
                     style="@style/chipStyle"
-                    app:mcv_chipText="連載"
+                    app:mcv_chipText="@string/unfinished"
                 />
             </com.google.android.flexbox.FlexboxLayout>
         </android.support.constraint.ConstraintLayout>
@@ -299,22 +299,22 @@
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/sortpoint"
                     style="@style/chipStyle"
-                    app:mcv_chipText="綜合"
+                    app:mcv_chipText="@string/sortpoint"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/count_push"
                     style="@style/chipStyle"
-                    app:mcv_chipText="熱門"
+                    app:mcv_chipText="@string/cout_push"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/score"
                     style="@style/chipStyle"
-                    app:mcv_chipText="評價"
+                    app:mcv_chipText="@string/score"
                 />
                 <com.robertlevonyan.views.chip.Chip
                     android:id="@+id/lastupdate"
                     style="@style/chipStyle"
-                    app:mcv_chipText="更新"
+                    app:mcv_chipText="@string/lastupdate"
                 />
             </com.google.android.flexbox.FlexboxLayout>
         </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_marginLeft="@dimen/activity_horizontal_margin"
+              android:orientation="vertical"
+              android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/category"
+        android:gravity="center_vertical"
+        android:text="訂閱 : (有更新自動推送)"
+        android:layout_width="match_parent"
+        android:textColor="@color/greyer"
+        android:layout_height="38dp"/>
+
+</LinearLayout>

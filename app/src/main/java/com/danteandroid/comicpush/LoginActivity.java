@@ -29,6 +29,7 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -54,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView register;
 
     private boolean isLogin;
+    private String password;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         });
         login.setOnClickListener(v -> attemptLogin());
         register.setOnClickListener(v -> AppUtil.openBrowser(LoginActivity.this, API.REGISTER_URL));
+        account.setText("502273376@qq.com");
+        psw.setText("dmc555");
     }
 
 
@@ -90,8 +95,8 @@ public class LoginActivity extends AppCompatActivity {
         accountWrapper.setError(null);
         pswWrapper.setError(null);
 
-        String email = account.getText().toString();
-        String password = psw.getText().toString();
+        email = account.getText().toString();
+        password = psw.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -111,12 +116,33 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             showProgress(true);
-            login(email, password);
+            login();
         }
     }
 
+    private void login() {
+        NetService.getService(API.BASE_URL, API.BASE_URL).getApi().login()
+                .subscribeOn(Schedulers.io())
+                .subscribe(responseBody -> {
+                    String data = null;
+                    try {
+                        data = responseBody.string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    login(email, password);
+                    Log.d(TAG, "call: " + data);
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
     private void login(String email, String psw) {
-        NetService.request().login(email, psw, "on")
+        NetService.getService(API.BASE_URL, API.BASE_URL + "login.php")
+                .getApi().login(email, psw, "on")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

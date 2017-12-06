@@ -11,12 +11,15 @@ import android.widget.Toast;
 import com.blankj.utilcode.utils.ClipboardUtils;
 import com.danteandroid.comicpush.BuildConfig;
 import com.danteandroid.comicpush.Constants;
+import com.danteandroid.comicpush.LoginActivity;
 
 import java.util.List;
 
 import moe.feng.alipay.zerosdk.AlipayZeroSdk;
 
 import static android.content.Context.UI_MODE_SERVICE;
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.danteandroid.comicpush.base.App.context;
 
 /**
@@ -67,14 +70,13 @@ public class AppUtil {
         }
     }
 
-//    public static void restartApp(Activity activity) {
-//        Intent intent = new Intent(activity, LoginActivity.class);
-//        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-//        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
-//        activity.startActivity(intent);
-//        EventBus.getDefault().post(new EventMessage("restart"));
-//        activity.finish();
-//    }
+    public static void restartApp(Activity activity) {
+        Intent intent = new Intent(activity, LoginActivity.class);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
+        activity.finish();
+    }
 
     public static void toggleNightMode() {
         UiModeManager modeManager = (UiModeManager) context.getSystemService(UI_MODE_SERVICE);
