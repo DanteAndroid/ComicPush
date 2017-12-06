@@ -43,20 +43,11 @@ public class NetService {
             ClearableCookieJar cookieJar =
                     new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
             instance.client = new OkHttpClient.Builder()
-                    .cookieJar(cookieJar)
+//                    .cookieJar(cookieJar)
                     .addInterceptor(chain -> {
                         Request original = chain.request();
                         Request request = original.newBuilder()
-                                .addHeader("Accept", "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
-                                .addHeader("Accept-Encoding", "gzip, deflate")
-                                .addHeader("Accept_Language", "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7")
-                                .addHeader("Cache-Control", "max-age=0")
-                                .addHeader("Connection", "keep-alive")
-                                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                                .addHeader("Content-Length", "51")
-                                .addHeader("Host", "vol.moe")
-                                .addHeader("Origin", "http://vol.moe")
-                                .addHeader("Upgrade-Insecure-Requests", "1")
+                                .addHeader("Cookie", "td_cookie=18446744070142011942")
                                 .addHeader("Referer", "http://vol.moe/")
                                 .addHeader("User-Agent", AGENT)
                                 .method(original.method(), original.body())
@@ -75,20 +66,12 @@ public class NetService {
         ClearableCookieJar cookieJar =
                 new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
         service.client = new OkHttpClient.Builder()
-                .cookieJar(cookieJar)
+//                .cookieJar(cookieJar)
                 .addInterceptor(chain -> {
                     Request original = chain.request();
                     Request request = original.newBuilder()
-                            .addHeader("Accept", "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
-                            .addHeader("Accept-Encoding", "gzip, deflate")
-                            .addHeader("Accept_Language", "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7")
-                            .addHeader("Cache-Control", "max-age=0")
-                            .addHeader("Connection", "keep-alive")
-                            .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                            .addHeader("Content-Length", "51")
-                            .addHeader("Host", "vol.moe")
-                            .addHeader("Origin", "http://vol.moe")
-                            .addHeader("Upgrade-Insecure-Requests", "1")
+                            .addHeader("Cookie", "td_cookie=18446744070142011942")
+                            .addHeader("Cookie", "VLIBSID=h9tb70lnj7vemot6j438t7nih0")
                             .addHeader("Referer", referer)
                             .addHeader("User-Agent", AGENT)
                             .method(original.method(), original.body())

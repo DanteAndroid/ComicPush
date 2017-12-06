@@ -81,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         });
         login.setOnClickListener(v -> attemptLogin());
         register.setOnClickListener(v -> AppUtil.openBrowser(LoginActivity.this, API.REGISTER_URL));
-        account.setText("502273376@qq.com");
-        psw.setText("dmc555");
+        account.setText("781258171@qq.com");
+        psw.setText("2268CJM");
     }
 
 
@@ -146,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
+                    showProgress(false);
                     try {
                         String data = response.string();
                         if (data.contains("e400")) {
@@ -158,12 +159,11 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             Log.e(TAG, "call: " + data);
                         }
-                        showProgress(false);
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }, throwable -> {
+                    showProgress(false);
                     ToastUtils.showShortToast("登录失败: " + throwable.getMessage());
                     pswWrapper.requestFocus();
                 });
