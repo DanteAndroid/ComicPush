@@ -5,10 +5,10 @@ package com.danteandroid.comicpush.net;
  */
 
 public class API {
-    public static final String BASE_URL = "http://vol.moe/";
-    public static final String MANHUA_URL = "http://manhua.vol.moe/";
+    public static final String BASE_URL = "https://vol.moe/";
+    public static final String MANHUA_URL = "https://manhua.vol.moe/";
     public static final String DOUBAN = "https://m.douban.com/search?query=%s&type=book";
 
-    public static final String GITHUB_APP_JSON= "http://raw.githubusercontent.com/DanteAndroid/ComicPush/master/app.json";
-    public static final String REGISTER_URL = "http://vol.moe/register.php";
+    public static final String GITHUB_APP_JSON = "https://raw.githubusercontent.com/DanteAndroid/ComicPush/master/app.json";
+    public static final String REGISTER_URL = "https://vol.moe/register.php";
 }

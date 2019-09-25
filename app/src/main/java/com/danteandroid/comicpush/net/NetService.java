@@ -47,8 +47,8 @@ public class NetService {
                     .addInterceptor(chain -> {
                         Request original = chain.request();
                         Request request = original.newBuilder()
-                                .addHeader("Cookie", "td_cookie=18446744070142011942")
-                                .addHeader("Referer", "http://vol.moe/")
+                                .addHeader("Cookie", "VLIBSID=q49sepjshuetqrqdi3hubiffd4")
+                                .addHeader("Referer", "https://vol.moe/")
                                 .addHeader("User-Agent", AGENT)
                                 .method(original.method(), original.body())
                                 .build();
@@ -70,9 +70,16 @@ public class NetService {
                 .addInterceptor(chain -> {
                     Request original = chain.request();
                     Request request = original.newBuilder()
-                            .addHeader("Cookie", "td_cookie=18446744070142011942")
-                            .addHeader("Cookie", "VLIBSID=h9tb70lnj7vemot6j438t7nih0")
+                            .addHeader("Cookie", "VLIBSID=q49sepjshuetqrqdi3hubiffd4; VOLUIN=10004759; VOLKEY=18827b515f9dc358cf3318cc216fc511; VOLSESS=1569421999")
+                            .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
+                            .addHeader("Accept-Encoding", "gzip, deflate, br")
+                            .addHeader("Accept-Language", "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,ja;q=0.6")
+                            .addHeader("Sec-Fetch-Mode", "nested-navigate")
+                            .addHeader("Sec-Fetch-User", "same-origin")
+                            .addHeader("Sec-Fetch-Site", "?1")
+                            .addHeader("Upgrade-Insecure-Requests", "1")
                             .addHeader("Referer", referer)
+                            .addHeader("Origin", "https://volmoe.com")
                             .addHeader("User-Agent", AGENT)
                             .method(original.method(), original.body())
                             .build();

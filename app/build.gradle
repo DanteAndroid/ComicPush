@@ -43,7 +43,6 @@ android {
         appSecret "APP_SECRET"    //这里是你的 appSecret，管理员在设置页可以查看
         mappingUploadEnabled true
     }
-
 }
 
 dependencies {
