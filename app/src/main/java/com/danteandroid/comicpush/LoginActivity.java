@@ -81,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         });
         login.setOnClickListener(v -> attemptLogin());
         register.setOnClickListener(v -> AppUtil.openBrowser(LoginActivity.this, API.REGISTER_URL));
-        account.setText("781258171@qq.com");
-        psw.setText("2268CJM");
+        account.setText("502273376@qq.com");
+        psw.setText("");
     }
 
 
